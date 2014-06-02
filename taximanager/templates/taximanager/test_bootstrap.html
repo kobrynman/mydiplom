@@ -1,0 +1,139 @@
+
+  <head>
+        <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link href="/static/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/static/bootstrap/js/dataTables.bootstrap.js"></script>
+
+
+        <link href="/static/media/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
+        <script src="/static/media/js/jquery.js" language="javascript" type="text/javascript"></script>
+        <script src="/static/media/js/jquery.dataTables.js" language="javascript" type="text/javascript"></script>
+        <script type="text/javascript" language="javascript" class="init">
+            $(document).ready(function() {
+                $('#example').dataTable();
+            } );
+        </script>
+
+
+  </head>
+
+  <body>
+
+
+
+
+  <form role="form">
+  <div class="form-group">
+
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputFile">File input</label>
+    <input type="file" id="exampleInputFile">
+    <p class="help-block">Example block-level help text here.</p>
+  </div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"> Check me out
+    </label>
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <div class="container">
+
+
+
+
+        <nav class="navbar navbar-default" >
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">Brand</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Link</a></li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+
+
+          <br><h2>Таблиця перевезень</h2>
+        <br>
+        <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Адреса відправлення</th>
+                    <th>Адреса прибуття</th>
+                    <th>Приблизний час поїздки</th>
+                    <th>Відстань</th>
+                    <th>Водій</th>
+                    <th>Автомобіль</th>
+
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+                    <th>Адреса відправлення</th>
+                    <th>Адреса прибуття</th>
+                    <th>Приблизний час поїздки</th>
+                    <th>Відстань</th>
+                    <th>Водій</th>
+                    <th>Автомобіль</th>
+
+                </tr>
+            </tfoot>
+
+            <tbody>
+                {% if ride_list %}
+                    {% for ride in ride_list %}
+                        <tr>
+                            <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.pickupAddress}}</a></td>
+                            <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.dropOffAddress}}</a></td>
+                            <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.ETA}}</a></td>
+                            <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.calculatedDistance}}</a></td>
+                            <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.cabID}}</a></td>
+                            <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.driverID}}</a></td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                     <p>No polls are available.</p>
+                {% endif %}
+
+            </tbody>
+        </table>
+
+</div>
+
+  </body>
+</html>

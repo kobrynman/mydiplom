@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Головна{% endblock %}</title>
+
+        <script src="/static/media/js/jquery.js" language="javascript" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.css">
+        <script src="/static/bootstrap/js/bootstrap.js"></script>
+        <link href="/static/taximanager/css/newride.css" rel="stylesheet">
+    {% block script %}{% endblock %}
+
+
+</head>
+
+<body>
+  <div class="container">
+
+        <div class="navbar  navbar-static-top">
+            <nav class="navbar-inner" >
+                <a class="brand"> Taxi manager </a>
+                <ul class="nav">
+                    <li class="divider-vertical"> </li>
+                    <li><a href="/ridelist/"> <i class="icon-home"></i> Головна  </a></li>
+                    <li><a href="#">  Карта  </a></li>
+                    <li><a href="about"> Про нас  </a></li>
+                </ul>
+
+
+                <form action="/logout/" class="navbar-form pull-right" >
+                    <ul class="nav nav-pills">
+                        <li ><a>Користувач:</a></li>
+                        <li><a href="#">{{user}}</a></li>
+                        <li><button type="testPostForm" class="btn" value="123">Вийти</button></li>
+                    </ul>
+                </form>
+
+            </nav>
+        </div>
+
+
+
+    {% block content %} {% endblock %}
+
+
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+         <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.css">
+        <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+    </head>
+
+    <body>
+
+    <div class="container">
+
+<!--
+        <form method='post'>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type='submit' value='Submit' />
+        </form>
+-->
+
+ <form  method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="fieldWrapper">
+        {{ form.subject.errors }}
+        <label >Email subject:</label>
+        {{ form.subject }}
+    </div>
+
+    <div class="fieldWrapper">
+        {{ form.message.errors }}
+        <label > повідомлення:</label>
+        {{ form.message }}
+    </div>
+
+
+
+    <p><input type="submit" value="Send message" /></p>
+</form>
+
+
+</form>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </body>
+
+</html>

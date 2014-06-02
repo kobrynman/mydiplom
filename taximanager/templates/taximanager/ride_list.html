@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Список перевезень{% endblock %}
+
+{% block script %}
+<link href="/static/media/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
+
+
+<script src="/static/taximanager/js/post.js" language="javascript" type="text/javascript"></script>
+<script src="/static/media/js/jquery.dataTables.js" language="javascript" type="text/javascript"></script>
+<!--для відображення таблиці укр мовою-->
+<script src="/static/taximanager/js/dataTable.js" type="text/javascript" language="javascript"></script>
+
+
+
+
+{% endblock %}
+
+{% block content %}
+<h2>Таблиця перевезень</h2>
+<table id="example"   class="table table-hover table-bordered"  cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Адреса відправлення</th>
+            <th>Адреса прибуття</th>
+            <th>Приблизний час поїздки</th>
+            <th>Відстань</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+
+    <tfoot>
+        <tr>
+            <th>Дата</th>
+            <th>Адреса відправлення</th>
+            <th>Адреса прибуття</th>
+            <th>Приблизний час поїздки</th>
+            <th>Відстань</th>
+            <th>Статус</th>
+        </tr>
+    </tfoot>
+
+    <tbody>
+        {% if ride_list %}
+            {% for ride in ride_list %}
+                <tr>
+                    <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.dateCreated|date:"d/m/Y G:i:s"}} </a></td>
+                    <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.pickupAddress}}</a></td>
+                    <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.dropOffAddress}}</a></td>
+                    <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.ETA}}</a></td>
+                    <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.calculatedDistance}}</a></td>
+                    <td>
+
+                        <form action="{% url 'taximanager:changeStatus' ride.id %}" method="post" name="selectStatus">
+                        {% csrf_token %}
+                            <p><select onchange="this.form.submit()" name="status" id="status">
+                                {% if status %}
+                                    {% for select in status %}
+                                        <option  value="{{select.id}}"  {% if select == ride.status %} selected {% endif %}>{{select.name}}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <p>Статус не достумний</p>
+                                {% endif %}
+
+                            </select></p>
+                        </form>
+
+
+<!--
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                {{ ride.status}} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                            {% if status %}
+                                {% for select in status %}
+                                    <li><a href="#">{{select.name}}</a></li>
+                                {% endfor %}
+                            {% else %}
+                                <p>Статус не достумний</p>
+                            {% endif %}
+                            </ul>
+                        </div>
+-->
+
+
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+<form action="/newride/">
+    <button type="submit" class="btn btn-default">Створити нове замовлення</button>
+</form>
+{% endblock %}
+
+
+
+
+
+
