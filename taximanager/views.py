@@ -1,3 +1,5 @@
+#!/usr/bin/python2.4
+# -*- coding: utf-8 -*-
 from taximanager.models import Ride, Status, Driver, Cab
 from django.shortcuts import render, get_object_or_404,render_to_response
 from django.contrib import auth
@@ -9,17 +11,20 @@ from django.views import generic
 from django.utils import timezone
 from django.contrib import auth
 
-from django.core.mail import send_mail
+
 from  taximanager.forms import ContactForm, RideForm, ViewRideForm
 
+
 from django.conf import settings
+
+from django.core.mail import send_mail
+
 
 def base(request):
     return HttpResponse("base!")
 
 
-def taximanager(request):
-    return render(request, 'registration.html', "")
+
 
 
 
@@ -41,19 +46,6 @@ def register(request):
 
 
 
-"""
-def login(request):
-    user = auth.authenticate(username='vova', password='3263')
-    if user is not None:
-        # the password verified for the user
-        if user.is_active:
-            return HttpResponse("User is valid, active and authenticated")
-        else:
-            return HttpResponse("The password is valid, but the account has been disabled!")
-    else:
-        # the authentication system was unable to verify the username and password
-        return HttpResponse("The username and password were incorrect.")
-"""
 
 
 
@@ -65,18 +57,7 @@ def logout(request):
     return HttpResponseRedirect("/login/")
 
 
-"""
-def login(request):
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
-    user = auth.authenticate(username='vova', password='3263')
-    if user is not None and user.is_active:
-        auth.login(request, user)
-        return HttpResponse("3")
-    else:
-        return HttpResponse("4")
 
-"""
 
 #test views
 class Test1(generic.ListView):
@@ -86,7 +67,6 @@ class Test1(generic.ListView):
         context = super(Test1, self).get_context_data(**kwargs)
         context['now'] = timezone.now()
         return context
-
 
 def Test2(request):
     # return render_to_response('geolocation/new_ride.html', RequestContext(request))
@@ -120,19 +100,30 @@ def bootstrap(request):
 @login_required
 def rideList(request):
 
+    if(request.user == 'vova'):
+        #ride_list = Ride.objects.filter(loginID = request.user ).order_by('pickupAddress')
+        ride_list = Ride.objects.filter(loginID = request.user )[:100]
+    else:
+        ride_list = Ride.objects.all()[:100]
 
 
 
-    ride_list = Ride.objects.filter(loginID = request.user )
+
     status = Status.objects.all()
 
 
     context = {'ride_list': ride_list,  'status': status}
     return render(request, 'taximanager/ride_list.html', context)
 
+def taximanager(request):
+    return render(request, 'registration.html', "")
+
 
 @login_required
 def newRide(request):
+
+
+
     driver = Driver.objects.all()
     cab = Cab.objects.all()
     status = Status.objects.all()
@@ -143,18 +134,28 @@ def newRide(request):
             new_ride = form.save(commit=False)
             new_ride.loginID = request.user
             new_ride.status=defaultStatus
+
+
+            new_ride.pay=round(6*round(float(new_ride.calculatedDistance)/1000,0))
+
+            new_ride.calculatedDistance = str(round(float(new_ride.calculatedDistance),2)/1000) + " км"
+
+
+
+
             new_ride.save()
             return HttpResponseRedirect('/ridelist/')
     else:
         form=RideForm()
 
-
-
     context = { 'driver':driver, 'cab':cab, 'status':status, 'form':form}
     return render(request, 'taximanager/new_ride.html', context)
 
+
+
 @login_required
 def selectRide(request, ride_id):
+
     ride = get_object_or_404(Ride, pk=ride_id)
     form= ViewRideForm(initial={
         'pickupAddress':ride.pickupAddress,
@@ -165,6 +166,8 @@ def selectRide(request, ride_id):
         'pickupLongitude':ride.pickupLongitude,
         'dropOffLatitude':ride.dropOffLatitude,
         'dropOffLongitude':ride.dropOffLongitude,
+        'email':ride.email,
+        'pay':ride.pay,
         'status':ride.status,
         'driverID':ride.loginID,
         'cabID':ride.cabID,
@@ -174,17 +177,21 @@ def selectRide(request, ride_id):
     return render(request, 'taximanager/select_ride.html', {'ride': ride, 'form':form})
 
 
+
+@login_required
 def changeStatus(request, ride_id):
 
     ride = get_object_or_404(Ride, pk=ride_id)
+    send_mail('Taxi manager', 'Status is:'+ ride.status.name , settings.EMAIL_HOST_USER,
+                      [ride.email], fail_silently=False)
     try:
         newStatus = Status.objects.get(id = request.POST['status'])
         ride.status=newStatus
+
         ride.save()
     except (KeyError, Status.DoesNotExist):
 
-        return render(request, 'polls/detail.html', {
-            'poll': p,
+        return render(request, 'polls/detal.html', {
             'error_message': "You didn't select a choice.",
         })
     return HttpResponseRedirect('/ridelist/')
@@ -192,6 +199,44 @@ def changeStatus(request, ride_id):
 
 def about(request):
     return render(request, 'taximanager/about.html', "")
+
+def drivers(request):
+    drivers = Driver.objects.all()
+    cabs = Cab.objects.all()
+    context = {'drivers': drivers,'cabs':cabs}
+    return render(request, 'taximanager/drivers.html', context)
+
+
+def changeStatusDriver(request, driver_id):
+
+    driver = get_object_or_404(Driver, pk=driver_id)
+
+
+
+    if request.POST.get('isActive', False):
+        cab = Cab.objects.get(id = request.POST['cab'])
+        cab.isActive=True
+        driver.isActive = True
+        driver.cabID = cab
+
+    else:
+        cab = Cab.objects.get(id = request.POST['cab'])
+        cab.isActive=False
+
+        driver.isActive=False
+        driver.cabID = None
+
+
+
+    driver.save()
+    cab.save()
+
+    return HttpResponseRedirect('/drivers/')
+
+
+
+
+
 
 
 def testPostForm(request):

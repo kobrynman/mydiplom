@@ -1,12 +1,6 @@
 from django.db import models
 from django.conf import settings
 
-class Driver(models.Model):
-    name = models.CharField(max_length=80)
-    isActive = models.BooleanField()
-
-    def __unicode__(self):  # Python 3: def __str__(self):
-        return self.name
 
 
 class Cab(models.Model):
@@ -15,9 +9,15 @@ class Cab(models.Model):
     isActive = models.BooleanField()
 
     def __unicode__(self):
-        return '%s - %s' % (self.licensePlateNumber, self.type)
+        #return '%s - %s' % (self.licensePlateNumber, self.type)
+        return self.type
 
-
+class Driver(models.Model):
+    name = models.CharField(max_length=80)
+    isActive = models.BooleanField()
+    cabID = models.OneToOneField(Cab, null=True, blank=True)
+    def __unicode__(self):  # Python 3: def __str__(self):
+        return self.name
 
 
 
@@ -47,12 +47,19 @@ class Ride(models.Model):
     pickupLongitude = models.FloatField()
     dropOffLatitude = models.FloatField()
     dropOffLongitude = models.FloatField()
+    email = models.EmailField()
+    pay = models.FloatField()
     status = models.ForeignKey(Status)
     driverID = models.ForeignKey(Driver, null=True, blank=True)
     cabID = models.ForeignKey(Cab, null=True, blank=True)
     loginID = models.ForeignKey(settings.AUTH_USER_MODEL,null=True, blank=True)
     notes = models.TextField(max_length=300, blank=True, )
     dateCreated = models.DateTimeField(auto_now_add=True, auto_now=True)
+
+
+    class Meta:
+        ordering = ["-dateCreated"]
+
 
     def __unicode__(self):  # Python 3: def __str__(self):
         return '%s  %s' % (self.pickupAddress, self.dropOffAddress)

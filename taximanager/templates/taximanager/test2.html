@@ -1,7 +1,8 @@
+
 <!DOCTYPE html>
 <html>
-<head>
-
+  <head>
+    <title>Localizing the Map</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
@@ -10,302 +11,24 @@
         margin: 0px;
         padding: 0px
       }
-}
-
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
-
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&language=ja"></script>
     <script>
-
-var directionsDisplay;
-var directionsService = new google.maps.DirectionsService();
-var map;
-
-var origin1 = new google.maps.LatLng(55.930, -3.118);
-var destinationA = 'Stockholm, Sweden';
-
-
-function calcRoute(pickupAddress, dropOffAddress) {
-
-  var request = {
-      origin: pickupAddress,
-      destination: dropOffAddress,
-      // Note that Javascript allows us to access the constant
-      // using square brackets and a string value as its
-      // "property."
-      travelMode: google.maps.TravelMode.DRIVING
-  };
-  directionsService.route(request, function(response, status) {
-    if (status == google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(response);
-    }
-  });
-}
-
-var origin1 = new google.maps.LatLng(55.930, -3.118);
-var origin2 = 'Greenwich, England';
-var destinationA = 'Stockholm, Sweden';
-var destinationB = new google.maps.LatLng(50.087, 14.421);
-
-
-//функції для обчислення відстані
-//origin1 - координати відправлення
-//destinationA - координати прибуття
-function calculateDistances(origin1, destinationA) {
-  var service = new google.maps.DistanceMatrixService();
-  service.getDistanceMatrix(
-    {
-      origins: [origin1],
-      destinations: [destinationA],
-      travelMode: google.maps.TravelMode.DRIVING,
-      unitSystem: google.maps.UnitSystem.METRIC,
-      avoidHighways: false,
-      avoidTolls: false
-    }, callback);
-}
-
-function callback(response, status) {
-  if (status != google.maps.DistanceMatrixStatus.OK) {
-    alert('Error was: ' + status);
-  } else {
-    var origins = response.originAddresses;
-    var destinations = response.destinationAddresses;
-
-
-    var outputETA = document.getElementById('ETA');
-    var outputDistance = document.getElementById('calculatedDistance');
-
-    for (var i = 0; i < origins.length; i++) {
-      var results = response.rows[i].elements;
-      for (var j = 0; j < results.length; j++) {
-            outputETA.value= results[j].duration.text
-            outputDistance.value = results[j].distance.text
-      }
-    }
-  }
-}
-
-
 function initialize() {
-  directionsDisplay = new google.maps.DirectionsRenderer();
   var mapOptions = {
-    center: new google.maps.LatLng(49.839683, 24.029717),
-    zoom: 13
+    zoom: 8,
+    center: new google.maps.LatLng(-34.397, 150.644)
   };
-  map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
-  directionsDisplay.setMap(map);
-
-
-  var start = /** @type {HTMLInputElement} */(
-      document.getElementById('input-start'));
-
-  var end = /** @type {HTMLInputElement} */(
-      document.getElementById('input-end'));
-
-
-  var autocompleteStart = new google.maps.places.Autocomplete(start);
-  var autocompleteEnd = new google.maps.places.Autocomplete(end);
-
-
-
-
-  google.maps.event.addListener(autocompleteStart, 'place_changed', function() {
-
-     var placeStart = autocompleteStart.getPlace();
-     var placeEnd = autocompleteEnd.getPlace();
-
-
-    pickupAddress= placeStart.geometry.location;
-    dropOffAddress = placeEnd.geometry.location;
-
-    if (!placeStart.geometry||!placeEnd.geometry) {
-      return;
-    }
-    document.getElementById('pickupLatitude').value=pickupAddress.lat()
-    document.getElementById('pickupLongitude').value=pickupAddress.lng()
-    document.getElementById('dropOffLatitude').value=dropOffAddress.lat()
-    document.getElementById('dropOffLongitude').value=dropOffAddress.lng()
-
-    calculateDistances(pickupAddress,dropOffAddress);
-    calcRoute(pickupAddress, dropOffAddress );
-
-  });
-
-  google.maps.event.addListener(autocompleteEnd, 'place_changed', function() {
-
-     var placeStart = autocompleteStart.getPlace();
-     var placeEnd = autocompleteEnd.getPlace();
-
-    pickupAddress= placeStart.geometry.location;
-    dropOffAddress = placeEnd.geometry.location;
-
-
-
-    if (!placeStart.geometry||!placeEnd.geometry) {
-      return;
-    }
-    document.getElementById('dropOffLatitude').value=dropOffAddress.lat()
-    document.getElementById('dropOffLongitude').value=dropOffAddress.lng()
-    document.getElementById('pickupLatitude').value=pickupAddress.lat()
-    document.getElementById('pickupLongitude').value=pickupAddress.lng()
-
-
-
-    calculateDistances(pickupAddress,dropOffAddress);
-    calcRoute(pickupAddress, dropOffAddress );
-
-  });
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
 }
-
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
     </script>
-
-     <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.css">
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-
-    <link href="/static/taximanager/newride.css" rel="stylesheet">
-
-
-</head>
-
-
-
-
-
-
-
-
-
-
-<!--
-
-    pickupAddress = models.CharField(max_length=100)
-    dropOffAddress = models.CharField(max_length=100)
-    ETA = models.TimeField('ETA')
-    calculatedDistance = models.DecimalField(max_digits=12, decimal_places=3)
-    pickupLatitude = models.IntegerField()
-    pickupLongitude = models.IntegerField()
-    dropOffLatitude = models.IntegerField()
-    dropOffLongitude = models.IntegerField()
-    status = models.ForeignKey(Status)
-    driverID = models.ForeignKey(Driver, null=True, blank=True)
-    cabID = models.ForeignKey(Cab, null=True, blank=True)
-    loginID = models.ForeignKey(Login)
-    notes = models.TextField(max_length=300,null=True, blank=True)
--->
-<body>
-
-  <div class="container">
-
-          <div class="navbar  navbar-static-top">
-            <nav class="navbar-inner" >
-                <a class="brand"> Taxi manager </a>
-                <ul class="nav">
-                    <li class="divider-vertical"> </li>
-                    <li><a href="#"> <i class="icon-home"></i> Головна  </a></li>
-                    <li><a href="#">  Карта  </a></li>
-                    <li><a href="#"> Про нас  </a></li>
-                </ul>
-
-
-                <form action="/logout/" class="navbar-form pull-right" >
-                    <ul class="nav nav-pills">
-                        <li ><a>Name:</a></li>
-                        <li><a href="#">{{user}}</a></li>
-                        <li><button type="testPostForm" class="btn" value="123">Sign out</button></li>
-                    </ul>
-
-                </form>
-
-            </nav>
-        </div>
-
-
-     <div class="row">
-        <div class="span3">
-            <br>
-            <h4 >Нове перевезення:</h4>
-
-            <form action="" method="post">
-            {% csrf_token %}
-                <div class="form-group">
-                    <label>Адреса відправлення</label>
-                    <input id="input-start" name="input-start" type="text" placeholder="Enter a location">
-                </div>
-
-                <div class="form-group">
-                    <label >Адреса прибуття</label>
-                    <input id="input-end" name="input-end" type="text" placeholder="Enter a location" >
-                </div>
-
-                <div class="form-group">
-                    <label  >Автомобіль</label>
-                    <select>
-                        {% if cab %}
-                            {% for select in cab %}
-                                <option><a href="#">{{select.type}}{{select.licensePlateNumber}}</a></option>
-                            {% endfor %}
-                        {% else %}
-                            <p>No status are available.</p>
-                        {% endif %}
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label  >Водій</label>
-                     <select>
-                        {% if driver %}
-                            {% for select in driver %}
-                                <option><a href="#">{{select.name}}</a></option>
-                            {% endfor %}
-                        {% else %}
-                            <p>No status are available.</p>
-                        {% endif %}
-                     </select>
-                </div>
-
-                <div class="form-group">
-                    <label >Примітка</label>
-                    <textarea  rows="3"></textarea>
-                </div>
-
-
-
-
-
-                <input id="pickupLatitude"  type="text" placeholder="pickupLatitude">
-                <input id="pickupLongitude"  type="text" placeholder="pickupLongitude">
-                <input id="dropOffLatitude"  type="text" placeholder="dropOffLatitude">
-                <input id="dropOffLongitude"  type="text" placeholder="dropOffLongitude">
-
-                <input id="ETA"  type="text" placeholder="ETA">
-                <input id="calculatedDistance"  type="text" placeholder="calculatedDistance">
-
-
-
-                <button type="submit" class="btn btn-default btn-block">Створити</button>
-            </form>
-
-
-        </div>
-            <div class="span9  ">
-                <br><h4 align="center">Карта</h4>
-                    <div id="map-canvas" style="width:100%; height:450px"></div>
-            </div>
-     </div>
-  </div>
-
-
-</body>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  </body>
 </html>
-
-
-
-
-
-
-
-
 

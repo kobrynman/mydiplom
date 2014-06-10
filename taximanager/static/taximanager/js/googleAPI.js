@@ -2,31 +2,39 @@ var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
 var map;
 
-var origin1 = new google.maps.LatLng(55.930, -3.118);
-var destinationA = 'Stockholm, Sweden';
 
 
+
+// функція прокладає маршрут
 function calcRoute(pickupAddress, dropOffAddress) {
 
   var request = {
       origin: pickupAddress,
       destination: dropOffAddress,
+      //waypoints - проміжні точки
+      region: 'UA',
       // Note that Javascript allows us to access the constant
       // using square brackets and a string value as its
       // "property."
       travelMode: google.maps.TravelMode.DRIVING
+
+
   };
   directionsService.route(request, function(response, status) {
+
     if (status == google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
-    }
+
+    }else {
+      alert('12312322: ' + status);
+     }
+
+
+
+
   });
 }
 
-var origin1 = new google.maps.LatLng(55.930, -3.118);
-var origin2 = 'Greenwich, England';
-var destinationA = 'Stockholm, Sweden';
-var destinationB = new google.maps.LatLng(50.087, 14.421);
 
 
 //функції для обчислення відстані
@@ -45,6 +53,8 @@ function calculateDistances(origin1, destinationA) {
     }, callback);
 }
 
+
+// для функції calculateDistances
 function callback(response, status) {
   if (status != google.maps.DistanceMatrixStatus.OK) {
     alert('Error was: ' + status);
@@ -60,13 +70,14 @@ function callback(response, status) {
       var results = response.rows[i].elements;
       for (var j = 0; j < results.length; j++) {
             outputETA.value= results[j].duration.text
-            outputDistance.value = results[j].distance.text
+            outputDistance.value = results[j].distance.value
       }
     }
   }
 }
 
 
+// ініціалізація карти
 function initialize() {
   directionsDisplay = new google.maps.DirectionsRenderer();
   var mapOptions = {
@@ -84,13 +95,24 @@ function initialize() {
       document.getElementById('id_dropOffAddress'));
 
 
-  var autocompleteStart = new google.maps.places.Autocomplete(start);
-  var autocompleteEnd = new google.maps.places.Autocomplete(end);
+  var autocompleteStart = new google.maps.places.Autocomplete(
+      start,
+      {
+        componentRestrictions: { 'country': 'ua' }
+      });
+  var autocompleteEnd = new google.maps.places.Autocomplete(
+      end,
+      {
+        componentRestrictions: { 'country': 'ua' }
+      });
 
 
 
-
+// подія прослуховування поля вводу точки відправлення
   google.maps.event.addListener(autocompleteStart, 'place_changed', function() {
+
+
+
 
      var placeStart = autocompleteStart.getPlace();
      var placeEnd = autocompleteEnd.getPlace();
@@ -112,6 +134,7 @@ function initialize() {
 
   });
 
+// подія прослуховування поля вводу точки прибуття
   google.maps.event.addListener(autocompleteEnd, 'place_changed', function() {
 
      var placeStart = autocompleteStart.getPlace();
@@ -129,8 +152,6 @@ function initialize() {
     document.getElementById('id_dropOffLongitude').value=dropOffAddress.lng()
     document.getElementById('id_pickupLatitude').value=pickupAddress.lat()
     document.getElementById('id_pickupLongitude').value=pickupAddress.lng()
-
-
 
     calculateDistances(pickupAddress,dropOffAddress);
     calcRoute(pickupAddress, dropOffAddress );

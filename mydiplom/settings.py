@@ -10,7 +10,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+     ('vova', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
@@ -62,6 +62,17 @@ MEDIA_ROOT = ''
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
 MEDIA_URL = ''
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'taxisuperman@gmail.com'
+EMAIL_HOST_PASSWORD = 'taxi1234'
+EMAIL_PORT = 587
+
+#EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+#DEFAULT_FROM_EMAIL = 'taxisuperman@gmail.com'
+
 
 
 AUTH_USER_MODEL = 'auth.User'

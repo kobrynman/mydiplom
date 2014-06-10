@@ -10,11 +10,14 @@ urlpatterns = patterns('',
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^ridelist/$', views.rideList, name='ridelist'),
 
-    url(r'^ridelist/about/$', views.about, name='about'),
+    url(r'^about/$', views.about, name='about'),
+    url(r'^drivers/$', views.drivers, name='drivers'),
+
 
     url(r'^ridelist/(?P<ride_id>\d+)/$', views.selectRide, name='selectRide'),
     url(r'^ridelist/(?P<ride_id>\d+)/changeStatus/$', views.changeStatus, name='changeStatus'),
 
+    url(r'^(?P<driver_id>\d+)/changeStatusDriver/$', views.changeStatusDriver, name='changeStatusDriver'),
 
 
     url(r'^register/$', views.register, name='register'),

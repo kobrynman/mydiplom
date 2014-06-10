@@ -1,8 +1,10 @@
 {% extends "base.html" %}
-
+{% block title %}Нове замовлення{% endblock %}
 {% block script %}
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places&language=uk"></script>
 <script src="/static/taximanager/js/googleAPI.js" type="text/javascript" language="javascript"> </script>
+
+
 {% endblock %}
 
 {% block content %}
@@ -30,6 +32,12 @@
             {{ form.pickupLongitude }}
             {{ form.dropOffLatitude }}
             {{ form.dropOffLongitude }}
+
+            <div class="form-group">
+                {{ form.email.errors }}
+                <label>Email</label>
+                {{ form.email }}
+            </div>
 
             <div class="form-group">
                 {{ form.driverID.errors }}

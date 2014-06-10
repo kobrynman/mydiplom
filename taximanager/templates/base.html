@@ -1,12 +1,18 @@
+
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
     <title>{% block title %}Головна{% endblock %}</title>
 
         <script src="/static/media/js/jquery.js" language="javascript" type="text/javascript"></script>
         <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.css">
         <script src="/static/bootstrap/js/bootstrap.js"></script>
         <link href="/static/taximanager/css/newride.css" rel="stylesheet">
+
+
+
     {% block script %}{% endblock %}
 
 
@@ -21,8 +27,8 @@
                 <ul class="nav">
                     <li class="divider-vertical"> </li>
                     <li><a href="/ridelist/"> <i class="icon-home"></i> Головна  </a></li>
-                    <li><a href="#">  Карта  </a></li>
-                    <li><a href="about"> Про нас  </a></li>
+                    <li><a href="/drivers/">  Водії  </a></li>
+                    <li><a href="/newride/"> Створити нове замовлення </a></li>
                 </ul>
 
 

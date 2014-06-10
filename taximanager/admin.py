@@ -17,7 +17,7 @@ class StatusAdmin(admin.ModelAdmin):
 class RideAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,          {'fields': ['pickupAddress','dropOffAddress','ETA','calculatedDistance',
-                                    'pickupLatitude','pickupLongitude','dropOffLatitude','dropOffLongitude',]}),
+                                    'pickupLatitude','pickupLongitude','dropOffLatitude','dropOffLongitude','email','pay']}),
         ('Foreign Key', {'fields': ['status','driverID','cabID','loginID',]}),
         ('notes',        {'fields': ['notes'],'classes': ['collapse']}),
     ]

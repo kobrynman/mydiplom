@@ -12,8 +12,6 @@
 <script src="/static/taximanager/js/dataTable.js" type="text/javascript" language="javascript"></script>
 
 
-
-
 {% endblock %}
 
 {% block content %}
@@ -26,6 +24,7 @@
             <th>Адреса прибуття</th>
             <th>Приблизний час поїздки</th>
             <th>Відстань</th>
+            <th>Вартість(грн)</th>
             <th>Статус</th>
         </tr>
     </thead>
@@ -37,6 +36,7 @@
             <th>Адреса прибуття</th>
             <th>Приблизний час поїздки</th>
             <th>Відстань</th>
+            <th>Вартість(грн)</th>
             <th>Статус</th>
         </tr>
     </tfoot>
@@ -44,12 +44,15 @@
     <tbody>
         {% if ride_list %}
             {% for ride in ride_list %}
+
+
                 <tr>
-                    <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.dateCreated|date:"d/m/Y G:i:s"}} </a></td>
+                    <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.dateCreated|date:"Y/m/d G:i:s"}} </a></td>
                     <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.pickupAddress}}</a></td>
                     <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.dropOffAddress}}</a></td>
                     <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.ETA}}</a></td>
                     <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.calculatedDistance}}</a></td>
+                    <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.pay}}</a></td>
                     <td>
 
                         <form action="{% url 'taximanager:changeStatus' ride.id %}" method="post" name="selectStatus">

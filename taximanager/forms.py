@@ -1,5 +1,5 @@
 from django import forms
-from taximanager.models import Ride, Status, Driver
+from taximanager.models import Ride, Status, Driver, Cab
 from django.forms import Textarea, DateField
 
 class ContactForm(forms.Form):
@@ -18,9 +18,14 @@ class RideForm(forms.ModelForm):
     pickupLongitude = forms.FloatField(widget=forms.HiddenInput())
     dropOffLatitude = forms.FloatField(widget=forms.HiddenInput())
     dropOffLongitude = forms.FloatField(widget=forms.HiddenInput())
+
+    driverID = forms.ModelChoiceField(queryset = Driver.objects.filter(isActive=False))
+    cabID = forms.ModelChoiceField(queryset = Cab.objects.filter(isActive=False))
     class Meta:
         model = Ride
-        exclude = ('loginID','status')
+        exclude = ('loginID','status','pay')
+
+
 
 class ViewRideForm(forms.ModelForm):
     ETA = forms.CharField(widget=forms.TextInput(attrs={'readonly':'readonly'}))
@@ -33,6 +38,16 @@ class ViewRideForm(forms.ModelForm):
 
     class Meta:
         model = Ride
+        widgets = {
+
+        }
+
+
+
+
+class DriverCabForm(forms.ModelForm):
+    class Meta:
+        model = Driver
         widgets = {
 
             'cabID': forms.Select(attrs={'readonly':'readonly'}),
