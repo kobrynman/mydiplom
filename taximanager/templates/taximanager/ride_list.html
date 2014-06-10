@@ -23,7 +23,7 @@
             <th>Адреса відправлення</th>
             <th>Адреса прибуття</th>
             <th>Приблизний час поїздки</th>
-            <th>Відстань</th>
+            <th>Відстань(м)</th>
             <th>Вартість(грн)</th>
             <th>Статус</th>
         </tr>
@@ -35,7 +35,7 @@
             <th>Адреса відправлення</th>
             <th>Адреса прибуття</th>
             <th>Приблизний час поїздки</th>
-            <th>Відстань</th>
+            <th>Відстань(м)</th>
             <th>Вартість(грн)</th>
             <th>Статус</th>
         </tr>
@@ -67,25 +67,13 @@
                                 {% endif %}
 
                             </select></p>
+                            {% if ride.status.name != 'Canceled' and ride.status.name != 'Rejected'  %}
+                                <a href="{% url 'taximanager:changeRide' ride.id %}">Редагувати</a>
+                            {% endif %}
                         </form>
 
 
-<!--
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                {{ ride.status}} <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                            {% if status %}
-                                {% for select in status %}
-                                    <li><a href="#">{{select.name}}</a></li>
-                                {% endfor %}
-                            {% else %}
-                                <p>Статус не достумний</p>
-                            {% endif %}
-                            </ul>
-                        </div>
--->
+
 
 
                     </td>

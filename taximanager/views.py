@@ -96,15 +96,22 @@ def bootstrap(request):
     context = {'ride_list': ride_list}
     return render(request, 'taximanager/bootstrap.html', context)
 
+from django.contrib.auth.models import Group
+
 
 @login_required
 def rideList(request):
 
-    if(request.user == 'vova'):
-        #ride_list = Ride.objects.filter(loginID = request.user ).order_by('pickupAddress')
-        ride_list = Ride.objects.filter(loginID = request.user )[:100]
-    else:
+    users_in_group = Group.objects.get(name="admin").user_set.all()
+    isflag = False
+    for user in users_in_group:
+        if user== request.user:
+            isflag=True
+
+    if isflag:
         ride_list = Ride.objects.all()[:100]
+    else:
+        ride_list = Ride.objects.filter(loginID = request.user )[:100]
 
 
 
@@ -115,14 +122,13 @@ def rideList(request):
     context = {'ride_list': ride_list,  'status': status}
     return render(request, 'taximanager/ride_list.html', context)
 
+@login_required
 def taximanager(request):
     return render(request, 'registration.html', "")
 
 
 @login_required
 def newRide(request):
-
-
 
     driver = Driver.objects.all()
     cab = Cab.objects.all()
@@ -136,9 +142,14 @@ def newRide(request):
             new_ride.status=defaultStatus
 
 
-            new_ride.pay=round(6*round(float(new_ride.calculatedDistance)/1000,0))
 
-            new_ride.calculatedDistance = str(round(float(new_ride.calculatedDistance),2)/1000) + " км"
+            send_mail('Taxi manager', 'Status is:'+ new_ride.status.name , settings.EMAIL_HOST_USER,
+                      [new_ride.email], fail_silently=False)
+
+         
+            new_ride.pay=round(6*round(float(new_ride.calculatedDistance)/1000,1),0)
+
+
 
 
 
@@ -150,6 +161,27 @@ def newRide(request):
 
     context = { 'driver':driver, 'cab':cab, 'status':status, 'form':form}
     return render(request, 'taximanager/new_ride.html', context)
+
+
+
+def changeRide(request, ride_id):
+    instance = get_object_or_404(Ride, pk=ride_id)
+
+    form = RideForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        new_ride = form.save(commit=False)
+
+
+        new_ride.pay=round(6*round(float(new_ride.calculatedDistance)/1000,1),0)
+
+
+
+
+        form.save()
+        return HttpResponseRedirect('/ridelist/')
+    return render(request, 'taximanager/changeRide.html', {'form':form})
+
+
 
 
 
@@ -196,22 +228,22 @@ def changeStatus(request, ride_id):
         })
     return HttpResponseRedirect('/ridelist/')
 
-
+@login_required
 def about(request):
     return render(request, 'taximanager/about.html', "")
 
+
+@login_required
 def drivers(request):
     drivers = Driver.objects.all()
     cabs = Cab.objects.all()
     context = {'drivers': drivers,'cabs':cabs}
     return render(request, 'taximanager/drivers.html', context)
 
-
+@login_required
 def changeStatusDriver(request, driver_id):
 
     driver = get_object_or_404(Driver, pk=driver_id)
-
-
 
     if request.POST.get('isActive', False):
         cab = Cab.objects.get(id = request.POST['cab'])

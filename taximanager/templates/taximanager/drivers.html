@@ -1,24 +1,26 @@
 {% extends "base.html" %}
 
 
+
+
+
 {% block title %}Водії{% endblock %}
 
 {% block script %}
 <link href="/static/media/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
 
 
-<script src="/static/taximanager/js/post.js" language="javascript" type="text/javascript"></script>
+
 <script src="/static/media/js/jquery.dataTables.js" language="javascript" type="text/javascript"></script>
 <!--для відображення таблиці укр мовою-->
 <script src="/static/taximanager/js/dataTable.js" type="text/javascript" language="javascript"></script>
 
 
+
+
 {% endblock %}
 
 {% block content %}
-
-
-
 
 
 <h2>Водії</h2>
@@ -49,7 +51,8 @@
                     {% csrf_token %}
 
                     <td><a href="">{{ driver.name}}</a></td>
-                    <td><a href=""><input type="checkbox" name="isActive" id="isActive" {% if driver.isActive %} checked {% endif %}>{{driver.isActive}}</a></td>
+                    <td><input type="checkbox" name="isActive"  {% if driver.isActive %} checked {% endif %}>
+                    </td>
 
                     <td>
                         {% if driver.isActive %}

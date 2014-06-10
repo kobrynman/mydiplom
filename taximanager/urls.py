@@ -15,6 +15,10 @@ urlpatterns = patterns('',
 
 
     url(r'^ridelist/(?P<ride_id>\d+)/$', views.selectRide, name='selectRide'),
+
+    url(r'^ridelist/(?P<ride_id>\d+)/change$', views.changeRide, name='changeRide'),
+
+
     url(r'^ridelist/(?P<ride_id>\d+)/changeStatus/$', views.changeStatus, name='changeStatus'),
 
     url(r'^(?P<driver_id>\d+)/changeStatusDriver/$', views.changeStatusDriver, name='changeStatusDriver'),

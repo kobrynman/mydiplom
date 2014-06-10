@@ -19,8 +19,8 @@ class RideForm(forms.ModelForm):
     dropOffLatitude = forms.FloatField(widget=forms.HiddenInput())
     dropOffLongitude = forms.FloatField(widget=forms.HiddenInput())
 
-    driverID = forms.ModelChoiceField(queryset = Driver.objects.filter(isActive=False))
-    cabID = forms.ModelChoiceField(queryset = Cab.objects.filter(isActive=False))
+    driverID = forms.ModelChoiceField(queryset = Driver.objects.filter(isActive=True))
+    cabID = forms.ModelChoiceField(queryset = Cab.objects.filter(isActive=True))
     class Meta:
         model = Ride
         exclude = ('loginID','status','pay')
