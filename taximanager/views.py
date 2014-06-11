@@ -146,8 +146,8 @@ def newRide(request):
             send_mail('Taxi manager', 'Status is:'+ new_ride.status.name , settings.EMAIL_HOST_USER,
                       [new_ride.email], fail_silently=False)
 
-         
-            new_ride.pay=round(6*round(float(new_ride.calculatedDistance)/1000,1),0)
+
+            new_ride.pay=round(6*round(float(new_ride.calculatedDistance),1)/1000,0)
 
 
 
@@ -170,7 +170,6 @@ def changeRide(request, ride_id):
     form = RideForm(request.POST or None, instance=instance)
     if form.is_valid():
         new_ride = form.save(commit=False)
-
 
         new_ride.pay=round(6*round(float(new_ride.calculatedDistance)/1000,1),0)
 
