@@ -1,10 +1,10 @@
 {% extends "base.html" %}
+
 {% block title %}Нове замовлення{% endblock %}
+
 {% block script %}
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places&language=uk"></script>
 <script src="/static/taximanager/js/changeRide.js" type="text/javascript" language="javascript"> </script>
-
-
 {% endblock %}
 
 {% block content %}
@@ -19,47 +19,39 @@
                 <label>Адреса відправлення</label>
                 {{ form.pickupAddress }}
             </div>
-
             <div class="form-group">
                 {{ form.dropOffAddress.errors }}
                 <label>Адреса прибуття</label>
                 {{ form.dropOffAddress }}
             </div>
-
             {{ form.ETA }}
             {{ form.calculatedDistance }}
             {{ form.pickupLatitude }}
             {{ form.pickupLongitude }}
             {{ form.dropOffLatitude }}
             {{ form.dropOffLongitude }}
-
             <div class="form-group">
                 {{ form.email.errors }}
                 <label>Email</label>
                 {{ form.email }}
             </div>
-
             <div class="form-group">
                 {{ form.driverID.errors }}
                 <label>Водій</label>
                 {{ form.driverID }}
             </div>
-
             <div class="form-group">
                 {{ form.cabID.errors }}
                 <label>Автомобіль</label>
                 {{ form.cabID }}
             </div>
-
             <div class="form-group">
                 {{ form.notes.errors }}
                 <label>Примітка</label>
                 {{ form.notes }}
             </div>
-
             <button type="submit" class="btn btn-default btn-block">Редагувати</button>
         </form>
-
     </div>
     <div class="span9  ">
         <h4 align="center">Карта</h4>
@@ -67,9 +59,3 @@
     </div>
 </div>
 {% endblock %}
-
-
-
-
-
-

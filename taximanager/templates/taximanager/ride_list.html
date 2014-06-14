@@ -3,15 +3,10 @@
 {% block title %}Список перевезень{% endblock %}
 
 {% block script %}
-<link href="/static/media/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
-
-
-<script src="/static/taximanager/js/post.js" language="javascript" type="text/javascript"></script>
-<script src="/static/media/js/jquery.dataTables.js" language="javascript" type="text/javascript"></script>
-<!--для відображення таблиці укр мовою-->
-<script src="/static/taximanager/js/dataTable.js" type="text/javascript" language="javascript"></script>
-
-
+    <link href="/static/media/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
+    <script src="/static/taximanager/js/post.js" language="javascript" type="text/javascript"></script>
+    <script src="/static/media/js/jquery.dataTables.js" language="javascript" type="text/javascript"></script>
+    <script src="/static/taximanager/js/dataTable.js" type="text/javascript" language="javascript"></script>
 {% endblock %}
 
 {% block content %}
@@ -23,7 +18,7 @@
             <th>Адреса відправлення</th>
             <th>Адреса прибуття</th>
             <th>Приблизний час поїздки</th>
-            <th>Відстань(м)</th>
+            <th>Відстань(км)</th>
             <th>Вартість(грн)</th>
             <th>Статус</th>
         </tr>
@@ -35,7 +30,7 @@
             <th>Адреса відправлення</th>
             <th>Адреса прибуття</th>
             <th>Приблизний час поїздки</th>
-            <th>Відстань(м)</th>
+            <th>Відстань(км)</th>
             <th>Вартість(грн)</th>
             <th>Статус</th>
         </tr>
@@ -44,17 +39,14 @@
     <tbody>
         {% if ride_list %}
             {% for ride in ride_list %}
-
-
                 <tr>
-                    <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.dateCreated|date:"Y/m/d G:i:s"}} </a></td>
+                    <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.dateCreated|date:"Y/m/d H:g:i"}} </a></td>
                     <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.pickupAddress}}</a></td>
                     <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.dropOffAddress}}</a></td>
                     <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.ETA}}</a></td>
                     <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.calculatedDistance}}</a></td>
                     <td><a href="{% url 'taximanager:selectRide' ride.id %}">{{ ride.pay}}</a></td>
                     <td>
-
                         <form action="{% url 'taximanager:changeStatus' ride.id %}" method="post" name="selectStatus">
                         {% csrf_token %}
                             <p><select onchange="this.form.submit()" name="status" id="status">
@@ -65,17 +57,11 @@
                                 {% else %}
                                     <p>Статус не достумний</p>
                                 {% endif %}
-
                             </select></p>
                             {% if ride.status.name != 'Canceled' and ride.status.name != 'Rejected'  %}
                                 <a href="{% url 'taximanager:changeRide' ride.id %}">Редагувати</a>
                             {% endif %}
                         </form>
-
-
-
-
-
                     </td>
                 </tr>
             {% endfor %}
@@ -86,9 +72,3 @@
     <button type="submit" class="btn btn-default">Створити нове замовлення</button>
 </form>
 {% endblock %}
-
-
-
-
-
-

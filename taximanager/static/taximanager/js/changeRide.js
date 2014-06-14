@@ -70,7 +70,7 @@ function callback(response, status) {
       var results = response.rows[i].elements;
       for (var j = 0; j < results.length; j++) {
             outputETA.value= results[j].duration.text
-            outputDistance.value = results[j].distance.value
+            outputDistance.value = results[j].distance.value/1000
       }
     }
   }
