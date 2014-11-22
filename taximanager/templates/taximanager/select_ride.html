@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 
 {% block title %}Перевезення{% endblock %}
@@ -6,35 +5,25 @@
 {% block script %}
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places&language=uk"></script>
 <script src="/static/taximanager/js/selectRide.js" type="text/javascript" language="javascript"> </script>
-
 {% endblock %}
 
-
-
-
 {% block content %}
-
-
 <div class="row">
     <div class="span3">
         <h4 >Перегляд:</h4>
             {{ form.non_field_errors }}
-
              <div class="form-group">
                 <label>Адреса відправлення</label>
                 <input readonly type="text" id="start_address" name="start_address" value="{{ride.pickupAddress}}">
             </div>
-
              <div class="form-group">
                 <label>Адреса прибуття</label>
                 <input readonly type="text"  id="end_address"  name="end_address" value="{{ride.dropOffAddress}}">
             </div>
-
             <div class="form-group">
                 <label>Приблизний час поїздки</label>
                 <input readonly type="text"   value="{{ride.ETA}}">
             </div>
-
             <div class="form-group">
                 <label>Відстань</label>
                 <input readonly type="text"   value="{{ride.calculatedDistance}}">
@@ -44,7 +33,6 @@
                 <label>Пошта кліента</label>
                 <input readonly type="text"   value="{{ride.email}}">
             </div>
-
             <div class="form-group">
                 <label>Вартість замовлення</label>
                 <input readonly type="text"   value="{{ride.pay}}">
@@ -54,7 +42,6 @@
                 <label>Статус</label>
                 <input readonly type="text"   value="{{ride.status}}">
             </div>
-
             <div class="form-group">
                 <label>Ім'я диспетчера</label>
                 <input readonly type="text"   value="{{ride.loginID}}">
@@ -63,35 +50,18 @@
                 <label>Автомобіль</label>
                 <input readonly type="text"   value="{{ride.cabID}}">
             </div>
-
             <div class="form-group">
                 <label>Водій</label>
                 <input readonly type="text"   value="{{ride.driverID}}">
             </div>
-
             <div class="form-group">
                 <label>Нотатки</label>
                 <textarea readonly rows="6" cols="45" name="text"></textarea></p>
             </div>
-
-
-
-
-
-
     </div>
     <div class="span9  ">
         <h4 align="center">Карта</h4>
         <div id="map-canvas" style="width:100%; height:450px"></div>
     </div>
 </div>
-
-
-
-
-
 {% endblock %}
-
-
-
-

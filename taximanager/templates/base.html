@@ -1,20 +1,16 @@
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>{% block title %}Головна{% endblock %}</title>
-
         <script src="/static/media/js/jquery.js" language="javascript" type="text/javascript"></script>
         <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.css">
         <script src="/static/bootstrap/js/bootstrap.js"></script>
         <link href="/static/taximanager/css/newride.css" rel="stylesheet">
-
     {% block script %}{% endblock %}
 
 </head>
-
     <body>
         <div class="container">
             <div class="navbar  navbar-static-top">
@@ -26,7 +22,6 @@
                         <li><a href="/drivers/">  Водії  </a></li>
                         <li><a href="/newride/"> Створити нове замовлення </a></li>
                     </ul>
-
                     <form action="/logout/" class="navbar-form pull-right" >
                         <ul class="nav nav-pills">
                             <li ><a>Користувач:</a></li>
@@ -34,13 +29,9 @@
                             <li><button type="testPostForm" class="btn" value="123">Вийти</button></li>
                         </ul>
                     </form>
-
                 </nav>
             </div>
-
        {% block content %} {% endblock %}
-
       </div>
-
     </body>
 </html>

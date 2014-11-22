@@ -4,21 +4,12 @@
 
 {% block script %}
 <link href="/static/media/css/jquery.dataTables.css" type="text/css" rel="stylesheet">
-
-
-
 <script src="/static/media/js/jquery.dataTables.js" language="javascript" type="text/javascript"></script>
 <!--для відображення таблиці укр мовою-->
 <script src="/static/taximanager/js/dataTable.js" type="text/javascript" language="javascript"></script>
-
-
-
-
 {% endblock %}
 
 {% block content %}
-
-
 <h2>Водії</h2>
 <table id="example"   class="table table-hover table-bordered"  cellspacing="0" width="100%">
     <thead>
@@ -29,7 +20,6 @@
             <th>Зберегти</th>
         </tr>
     </thead>
-
     <tfoot>
         <tr>
             <th>Ім'я</th>
@@ -38,18 +28,15 @@
             <th>Зберегти</th>
         </tr>
     </tfoot>
-
     <tbody>
         {% if drivers %}
             {% for driver in drivers %}
                 <tr>
                     <form action="{% url 'taximanager:changeStatusDriver' driver.id %}" method="post" name="selectStatus">
                     {% csrf_token %}
-
                     <td><a href="">{{ driver.name}}</a></td>
                     <td><input type="checkbox" name="isActive"  {% if driver.isActive %} checked {% endif %}>
                     </td>
-
                     <td>
                         {% if driver.isActive %}
                             <div class="control-group success">
@@ -57,7 +44,6 @@
                                         <option value="{{driver.cabID.id}}"  >{{driver.cabID}} </option>
                                   </select></p>
                             </div>
-
                         {% else %}
                         <div class="control-group error">
                             <p><select  name="cab" >
@@ -70,20 +56,15 @@
                                 {% else %}
                                     <p>Автомобіль не достумний</p>
                                 {% endif %}
-
                             </select></p>
                         </div>
                         {% endif %}
                     </td>
-
                     <td><button type="submit" class="btn btn-default">Зберегти</button></td>
-
                     </form>
-
                 </tr>
             {% endfor %}
         {% endif %}
     </tbody>
 </table>
-
 {% endblock %}

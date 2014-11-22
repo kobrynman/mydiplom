@@ -1,6 +1,5 @@
     $(document).ready(function() {
         $('#example').dataTable( {
-
             "language":
             {
                 "emptyTable":     "Дані відсутні в таблиці",

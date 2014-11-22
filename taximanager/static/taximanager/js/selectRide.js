@@ -2,18 +2,12 @@ var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
 var map;
 
-
-
-
 // функція прокладає маршрут
 function calcRoute() {
-
   var pickupAddress = /** @type {HTMLInputElement} */(
       document.getElementById('start_address')).value;
-
   var dropOffAddress = /** @type {HTMLInputElement} */(
       document.getElementById('end_address')).value;
-
   var request = {
       origin: pickupAddress,
       destination: dropOffAddress,
@@ -23,19 +17,13 @@ function calcRoute() {
       // using square brackets and a string value as its
       // "property."
       travelMode: google.maps.TravelMode.DRIVING
-
-
   };
   directionsService.route(request, function(response, status) {
-
     if (status == google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
-
     }
   });
 }
-
-
 
 // ініціалізація карти
 function initialize() {
@@ -46,10 +34,6 @@ function initialize() {
   };
   map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
   directionsDisplay.setMap(map);
-
   calcRoute();
 }
-
-
-
 google.maps.event.addDomListener(window, 'load', initialize);

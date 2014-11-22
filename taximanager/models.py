@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 
 
-
 class Cab(models.Model):
     licensePlateNumber = models.CharField(max_length=100)
     type = models.CharField(max_length=120)
@@ -12,14 +11,13 @@ class Cab(models.Model):
         #return '%s - %s' % (self.licensePlateNumber, self.type)
         return self.type
 
+
 class Driver(models.Model):
     name = models.CharField(max_length=80)
     isActive = models.BooleanField()
     cabID = models.OneToOneField(Cab, null=True, blank=True)
     def __unicode__(self):  # Python 3: def __str__(self):
         return self.name
-
-
 
 
 class Status(models.Model):

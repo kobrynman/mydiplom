@@ -1,11 +1,5 @@
 # Django settings for mydiplom project.
 
-
-import os
-SETTINGS_ROOT = os.path.dirname(__file__)
-
-
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -63,7 +57,6 @@ MEDIA_ROOT = ''
 # Examples: "http://example.com/media/", "http://media.example.com/"
 MEDIA_URL = ''
 
-
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'taxisuperman@gmail.com'
@@ -72,8 +65,6 @@ EMAIL_PORT = 587
 
 #EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 #DEFAULT_FROM_EMAIL = 'taxisuperman@gmail.com'
-
-
 
 AUTH_USER_MODEL = 'auth.User'
 LOGIN_REDIRECT_URL = '/ridelist/'
@@ -84,8 +75,6 @@ LOGOUT_URL = '/logout/'
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
 #STATIC_ROOT = ''
-
-
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"

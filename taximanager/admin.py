@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from taximanager.models import Driver,Cab,Status,Ride
 
 
